@@ -1,6 +1,10 @@
 import styled from "@emotion/styled";
 import { SearchOutlined } from "@ant-design/icons";
 
+interface IProps {
+  isScroll: boolean;
+}
+
 export const HeaderWrapper = styled.header`
   height: 70px;
   padding: 0 30px 0 80px;
@@ -35,6 +39,8 @@ export const FuncWrapper = styled.div`
 `;
 
 export const SearchWrapper = styled.div`
+  position: sticky;
+  top: 0;
   height: 70px;
   margin-top: 20px;
   padding: 0 30px 0 80px;
@@ -42,38 +48,62 @@ export const SearchWrapper = styled.div`
   flex-direction: row;
   justify-content: space-between;
   align-items: center;
-  /* background-color: #bdbdbd; */
+  background-color: ${(props: IProps) => (props.isScroll ? "black" : "white")};
+
+  & > div:first-of-type {
+    visibility: ${(props: IProps) => (props.isScroll ? "visible" : "hidden")};
+  }
 `;
 
 export const SearchBox = styled.div`
+  padding: 0 15px;
   height: 60px;
-  background-color: black;
+  width: 60px;
+  border-radius: 60px;
   display: flex;
-  flex-direction: row-reverse;
-  justify-content: center;
+  flex-direction: row;
+  justify-content: end;
   align-items: center;
-  border-radius: 50px;
-  border: 1px solid #757575;
-  transition: all 1s ease-in-out;
+  background-color: black;
+
+  transition: ${(props: IProps) =>
+    props.isScroll
+      ? "width 0.7s ease, background-color 0.7s ease"
+      : "width 0.7s ease"};
+
+  &:focus-within {
+    width: 380px;
+    background-color: white;
+    border: 2px solid black;
+  }
+
+  &:focus-within > input {
+    background-color: transparent;
+    display: block;
+    height: 90%;
+    width: 100%;
+    border-right: 1px solid black;
+  }
+
+  &:focus-within > :last-child {
+    color: black;
+  }
 `;
 
 export const SearchBoxInput = styled.input`
-  display: none;
-  width: 300px;
-  margin-right: 10px;
+  height: 10%;
+  padding-right: 10px;
   border: none;
+  display: none;
   font-size: 18px;
-  margin-right: 10px;
-  transition: all 1s ease-in-out;
+
+  &:focus {
+    outline: none;
+  }
 `;
 
 export const CustomSearchOutlined = styled(SearchOutlined)`
-  margin: 15px;
+  margin-left: 10px;
   color: white;
   font-size: 30px;
-
-  &:focus + input {
-    display: block;
-    transition: all 1s ease-in-out;
-  }
 `;

@@ -1,5 +1,8 @@
 import { gql, useQuery } from "@apollo/client";
-import { IQuery, IQueryFetchUseditemArgs } from "../../../../commons/types/generated/types";
+import {
+  IQuery,
+  IQueryFetchUseditemArgs,
+} from "../../../../commons/types/generated/types";
 
 export const FETCH_USED_ITEM = gql`
   query fetchUseditem($useditemId: ID!) {
@@ -28,7 +31,10 @@ export const FETCH_USED_ITEM = gql`
 `;
 
 export const useQueryFetchUsedItem = (variables: IQueryFetchUseditemArgs) => {
-  const data = useQuery<Pick<IQuery, "fetchUseditem">, IQueryFetchUseditemArgs>(FETCH_USED_ITEM, { variables });
+  const data = useQuery<Pick<IQuery, "fetchUseditem">, IQueryFetchUseditemArgs>(
+    FETCH_USED_ITEM,
+    { variables }
+  );
 
   return data;
 };

@@ -1,20 +1,18 @@
 import Link from "next/link";
-import { useRef } from "react";
-import { useSetIsToggle } from "../../hooks/custom/useSetIsToggle";
+import { useEffectHandleScroll } from "../../hooks/custom/useEffectHandleScroll";
+import { useRouterMovePage } from "../../hooks/custom/useRouterMovePage";
+import { useSearch } from "../../hooks/custom/useSearch";
 import * as S from "./LayoutHeaderStyles";
 
 export default function LayoutHeader(): JSX.Element {
-  const [isToggle, changeIsToggle] = useSetIsToggle();
+  const isScroll = useEffectHandleScroll();
+  const onChangeSearch = useSearch();
+  const { onClickMovePage } = useRouterMovePage();
 
-  const searchRef = useRef(null);
-
-  const onClickSearch = (): void => {
-    searchRef.current.focus();
-  };
   return (
     <>
       <S.HeaderWrapper>
-        <S.LogoWrapper>
+        <S.LogoWrapper onClick={onClickMovePage("/")}>
           <img src="/images/layout/logo.svg" />
         </S.LogoWrapper>
         <S.FuncWrapper>
@@ -26,13 +24,13 @@ export default function LayoutHeader(): JSX.Element {
           </Link>
         </S.FuncWrapper>
       </S.HeaderWrapper>
-      <S.SearchWrapper>
+      <S.SearchWrapper isScroll={isScroll}>
         <S.LogoWrapper>
           <img src="/images/layout/logo.svg" />
         </S.LogoWrapper>
-        <S.SearchBox ref={searchRef}>
-          <S.CustomSearchOutlined onClick={onClickSearch} />
-          <S.SearchBoxInput type="text" />
+        <S.SearchBox tabIndex={0} isScroll={isScroll}>
+          <S.SearchBoxInput type="text" onChange={onChangeSearch} />
+          <S.CustomSearchOutlined />
         </S.SearchBox>
       </S.SearchWrapper>
     </>

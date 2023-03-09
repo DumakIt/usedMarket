@@ -1,4 +1,7 @@
 import { ApolloQueryResult, gql, useQuery } from "@apollo/client";
+import { useEffect } from "react";
+import { useRecoilState } from "recoil";
+import { searchState } from "../../../../commons/stores";
 import {
   IQuery,
   IQueryFetchUseditemsArgs,
@@ -26,10 +29,17 @@ interface IuseQueryFetchUsedItems {
 }
 
 export const useQueryFetchUsedItems = (): IuseQueryFetchUsedItems => {
+  const [search] = useRecoilState(searchState);
   const { data, fetchMore, refetch } = useQuery<
     Pick<IQuery, "fetchUseditems">,
     IQueryFetchUseditemsArgs
   >(FETCH_USED_ITEMS);
+
+  useEffect(() => {
+    void refetch({
+      search,
+    });
+  }, [search]);
 
   const FetchMore = (): void => {
     if (data === undefined) return;

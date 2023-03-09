@@ -18,3 +18,8 @@ export const withAuthBooleanState = atom({
   key: "withAuthBoolean",
   default: false,
 });
+
+export const searchState = atom({
+  key: "searchState",
+  default: "",
+});
